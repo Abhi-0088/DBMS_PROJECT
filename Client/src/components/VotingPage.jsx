@@ -36,9 +36,11 @@ function Voting() {
         if (!electionData) return;
 
         const calculateTimeLeft = () => {
-            const end = new Date(electionData.endTime);
+            console.log("electionData",electionData)
+            const end = new Date(electionData.end_time);
             const now = new Date();
             const timeDifference = end - now;
+            console.log("time difference: ",timeDifference)
 
             if (timeDifference > 0) {
                 const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);

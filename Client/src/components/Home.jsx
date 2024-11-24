@@ -20,9 +20,9 @@ function Home() {
 
           {/* Right: Content */}
           <div className="md:w-1/2 p-8 md:p-12 flex flex-col items-center justify-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-blue-700 leading-tight">Decentralized Voting System</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-blue-700 leading-tight">Club Voting System</h1>
             <p className="text-lg md:text-xl text-gray-700 text-center mt-4">
-              Ensuring Transparent and Fair Elections in Student Clubs Using Blockchain Technology.
+              Ensuring Transparent and Fair Elections in Student Clubs Using MySQL.
             </p>
             <Link to="/login" className="mt-8">
               <button className="bg-gradient-to-r from-teal-500 to-green-500 text-white font-medium py-3 px-8 rounded-full hover:from-teal-600 hover:to-green-600 transition duration-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-teal-300">
