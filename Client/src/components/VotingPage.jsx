@@ -61,25 +61,38 @@ function Voting() {
         }
     };
 
-    const handleSubmitVote = () => {
+    const handleSubmitVote = async () => {
         if (selectedCandidate === null) {
             alert('Please select a candidate to vote for!');
             return;
         }
-
+    
         if (!hasVoted) {
             setHasVoted(true);
             const selectedCandidateData = electionData.candidates[selectedCandidate];
-            console.log('Vote submitted for:', selectedCandidateData);
-            // Here, make your API call to submit the vote to the backend.
-            // Example:
-            // axios.post(`/api/vote/${electionId}`, { candidateId: selectedCandidateData._id })
-            //   .then(res => { /* Handle success */ })
-            //   .catch(err => { /* Handle error */ });
-
-            alert(`Your vote for ${selectedCandidateData.name} has been submitted.`); // Alert after successful API call
-
-            navigate('/generalElectionPage');
+            console.log('from client selected id: ',selectedCandidateData.id)
+    
+            try {
+                // API call to submit the vote
+                const response = await axios.post(
+                    `http://localhost:8081/elections/increaseVoteCount`,
+                    { candidate_id: selectedCandidateData.id } // Adjust key name if API expects different key
+                );
+    
+                console.log('Vote API response:', response.data);
+    
+                if (response.data.success) {
+                    alert(`Your vote for ${selectedCandidateData.name} has been submitted.`);
+                    navigate('/generalElectionPage');
+                } else {
+                    alert('Error submitting vote: ' + response.data.message);
+                    setHasVoted(false); // Allow retry if submission fails
+                }
+            } catch (error) {
+                console.error('Error submitting vote:', error);
+                alert('Failed to submit vote. Please try again.');
+                setHasVoted(false); // Allow retry if submission fails
+            }
         }
     };
 

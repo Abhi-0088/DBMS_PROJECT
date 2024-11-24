@@ -162,3 +162,45 @@ exports.getElectionById = async (req, res) => {
     }
 };
 
+exports.increaseVoteCount = async (req, res) => {
+    try {
+        const candidateId = req.body.candidate_id; // Extract candidate ID from the request parameters
+        console.log("priting req:\n",req.body);
+        console.log("Increasing vote count for candidate ID:", candidateId);
+
+        // Query to increase the vote count for the specified candidate
+        const updateVoteCountQuery = `
+            UPDATE candidates
+            SET vote_count = vote_count + 1
+            WHERE id = ?`;
+
+        db.query(updateVoteCountQuery, [candidateId], (error, result) => {
+            if (error) {
+                console.log("Error updating vote count:", error);
+                return res.status(500).json({
+                    message: "Error updating vote count in the database",
+                    success: false,
+                    error
+                });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({
+                    message: "Candidate not found",
+                    success: false
+                });
+            }
+
+            return res.status(200).json({
+                message: "Vote count increased successfully",
+                success: true
+            });
+        });
+    } catch (error) {
+        console.log("Error:", error);
+        return res.status(500).json({
+            message: "Something went wrong",
+            success: false
+        });
+    }
+};
